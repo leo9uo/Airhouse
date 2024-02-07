@@ -13,15 +13,20 @@ class SignUpView(View):
     
     def post(self, request):
         form = UserRegisterForm(request.POST)
-
         if form.is_valid():
-            form.save()
-            user = authenticate(
-                first_name=form.cleaned_data['first_name'],
-                password=form.cleaned_data['password1']
-            )
-
-            login(request, user)   
-            return redirect('index')
-
+            user = form.save()  # This saves the user instance
+            
+            
+            email = form.cleaned_data.get('email')
+            password = form.cleaned_data.get('password1')
+            
+            # Authenticate the user
+            user = authenticate(request, email=email, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('index')
+            else:
+                # If authentication fails, handle it (e.g., return an error message)
+                form.add_error(None, "Authentication failed.")
+        # If form is not valid or authentication fails, re-render the form with errors
         return render(request, 'airhouse/signup.html', {'form': form})
