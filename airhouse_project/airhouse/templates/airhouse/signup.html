@@ -1,9 +1,11 @@
 {% extends "airhouse/base.html" %}
+{% load crispy_forms_tags %}
 
 {% block content %}
     <div class="row">
         <div class="col-11 col-md-4 mx-auto mt-5">
             <h1>Register</h1>
+            <p>or login with an existing account</p>
             {% if form.errors %}
                 {% for field in form %}
                     {% for error in field.errors %}
@@ -21,7 +23,7 @@
             
             <form method="post">
                 {% csrf_token %}
-                {{ form }}
+                {{ form|crispy }}
 
                 <button class="btn btn-primary" type="submit">Submit</button>
             </form>
