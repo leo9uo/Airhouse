@@ -6,6 +6,9 @@ from .forms import UserRegisterForm
 class Index(TemplateView):
     template_name = 'airhouse/index.html'
 
+def login_view(request):
+    return render(request, 'airhouse/login.html')
+
 class SignUpView(View):
     def get(self, request):
         form = UserRegisterForm()
