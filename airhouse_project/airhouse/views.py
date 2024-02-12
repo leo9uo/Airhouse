@@ -1,13 +1,14 @@
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, View 
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.views import LoginView
 from .forms import UserRegisterForm
 
 class Index(TemplateView):
     template_name = 'airhouse/index.html'
 
-def login_view(request):
-    return render(request, 'airhouse/login.html')
+class MyLoginView(LoginView):
+    template_name = 'airhouse/login.html'
 
 class SignUpView(View):
     def get(self, request):
