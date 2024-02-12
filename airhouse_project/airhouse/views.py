@@ -1,14 +1,20 @@
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, View 
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, LogoutView
 from .forms import UserRegisterForm
 
 class Index(TemplateView):
     template_name = 'airhouse/index.html'
 
-class MyLoginView(LoginView):
+class LoginView(LoginView):
     template_name = 'airhouse/login.html'
+
+class Dashboard(TemplateView):
+    template_name = 'airhouse/dashboard.html'
+
+# class LogoutView(LogoutView):
+#     template_name = 'airhouse/logout.html'
 
 class SignUpView(View):
     def get(self, request):
