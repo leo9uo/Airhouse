@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, View 
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
 from .forms import UserRegisterForm
 
@@ -10,7 +11,7 @@ class Index(TemplateView):
 class LoginView(LoginView):
     template_name = 'airhouse/login.html'
 
-class Dashboard(TemplateView):
+class Dashboard(LoginRequiredMixin, TemplateView):
     template_name = 'airhouse/dashboard.html'
 
 # class LogoutView(LogoutView):
