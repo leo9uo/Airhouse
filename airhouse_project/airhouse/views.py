@@ -11,8 +11,9 @@ class Index(TemplateView):
 class LoginView(LoginView):
     template_name = 'airhouse/login.html'
 
-class Dashboard(LoginRequiredMixin, TemplateView):
-    template_name = 'airhouse/dashboard.html'
+class Dashboard(LoginRequiredMixin, View):
+    def get(self, request):
+        return render(request, 'airhouse/dashboard.html')
 
 # class LogoutView(LogoutView):
 #     template_name = 'airhouse/logout.html'

@@ -4,15 +4,16 @@
 {% block content %}
 <div class="row">
     <div class="col-11 col-md-4 mx-auto mt-5">
-        <h1>Log In</h1>
+        <h1>Sign in</h1>
+        <div class="pt-0">
+            <small>or <a href="{% url 'register' %}" class="ml-2">register</a> a new account</small>
+        </div>
         <form method="post">
             {% csrf_token %}
             {{ form|crispy }}
-            <button class="btn btn-outline-secondary">Sign In</button>
+            <button type="submit" class="btn btn-primary disabled">Sign In</button>
         </form>
-        <div class="pt-3">
-            <small class="text-muted">Need an account? <a href="{% url 'register' %}" class="ml-2">Register</a></small>
-        </div>
+        
     </div>
 </div>
 {% endblock content %}
