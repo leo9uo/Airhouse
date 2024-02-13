@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
 from .forms import UserRegisterForm
+from .models import InventoryItem
 
 class Index(TemplateView):
     template_name = 'airhouse/index.html'
@@ -13,10 +14,11 @@ class LoginView(LoginView):
 
 class Dashboard(LoginRequiredMixin, View):
     def get(self, request):
-        return render(request, 'airhouse/dashboard.html')
+        items = InventoryItem.objects.filter(user=self.request.user.id).order_by('id')
 
-# class LogoutView(LogoutView):
-#     template_name = 'airhouse/logout.html'
+        return render(request, 'airhouse/dashboard.html', {'items': items})
+
+
 
 class SignUpView(View):
     def get(self, request):

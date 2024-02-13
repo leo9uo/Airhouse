@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import CustomUser
+from .models import CustomUser, InventoryItem, Category
 
 @admin.register(CustomUser)
 class CustomUserAdmin(UserAdmin):
@@ -21,3 +21,6 @@ class CustomUserAdmin(UserAdmin):
     )
     search_fields = ('email', 'first_name', 'last_name', 'company_name')
     ordering = ('email',)  # Updated to use 'email' for ordering
+
+admin.site.register(InventoryItem)
+admin.site.register(Category)
