@@ -7,24 +7,26 @@
         <!-- Left side of navbar -->
         <div class="collapse navbar-collapse justify-content" id="navbarNav">
             <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Inventory</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Orders</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Restock</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Billing</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Returns</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Projects</a>
-                </li>
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Inventory</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Orders</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Restock</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Billing</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Returns</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Projects</a>
+                    </li>
+                {% endif %}
             </ul>
         </div>
         <!-- right side of navbar -->
