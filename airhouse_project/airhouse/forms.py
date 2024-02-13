@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import CustomUser
+from .models import CustomUser, InventoryItem, Category
 
 class UserRegisterForm(UserCreationForm):
     first_name = forms.CharField(max_length=30, required=True, help_text='Required.')
@@ -19,3 +19,10 @@ class UserRegisterForm(UserCreationForm):
         self.fields['password2'].help_text = 'Enter the same password as before, for verification.'
         # Optionally, reorder fields if needed
         self.order_fields(('first_name', 'last_name', 'company_name', 'email', 'password1', 'password2', 'invitation_code'))
+
+
+class InventoryItemForm(forms.ModelForm):
+    category = forms.ModelChoiceField(queryset=Category.objects.all(), initial=0)
+    class Meta:
+        model = InventoryItem
+        fields = ['name', 'quantity', 'category']
