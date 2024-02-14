@@ -4,7 +4,7 @@ from django.views.generic import TemplateView, View, CreateView
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
-from .forms import UserRegisterForm
+from .forms import UserRegisterForm, InventoryItemForm
 from .models import InventoryItem, Category
 
 class Index(TemplateView):
@@ -46,7 +46,7 @@ class SignUpView(View):
     
 class AddItem(LoginRequiredMixin, CreateView):
     model = InventoryItem
-    form_class = InventoryItem
+    form_class = InventoryItemForm
     template_name = 'airhouse/item_form.html'
     success_url = reverse_lazy('dashboard')
 
@@ -56,5 +56,5 @@ class AddItem(LoginRequiredMixin, CreateView):
         return context
     
     def form_valid(self, form):
-        form.instance.user = self.request.username
+        form.instance.user = self.request.user
         return super().form_valid(form)
