@@ -1,0 +1,62 @@
+{% extends 'airhouse/base.html' %}  
+
+{% block content %}
+<h1>Orders</h1>
+
+
+<div class="row">
+    <div class="col-md-10 col-12 mx-auto mt-5">
+        <div class="d-flex justify-content-end">
+            <a href="#" class="btn btn-primary">+</a>
+        </div>
+
+        <table class="table table-hover table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">ORDER NO.</th>
+                    <th scope="col">RECIPIENT</th>
+                    <th scope="col">ORDER DATE</th>
+                    <th scope="col">STATUS</th>
+                    <th scope="col">PAYMENT</th>
+                    <th scope="col">ORDER SOURCE</th>
+                    <th scope="col">SKUS ORDERED</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if orders|length == 0 %}
+                <tr>
+                    <th scope="row">-</th>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td></td>
+                </tr>
+                {% endif %}
+
+                {% for order in orders %}
+                <tr>
+                    <th scope="row">{{ order.order_no|stringformat:"s"|slice:":8" }}</th>
+                    <td>{{ order.recipient }}</td>
+                    <td>{{ order.order_date }}</td>
+                    <td>{{ order.get_status_display }}</td>
+                    <td>${{ order.get_payment_display }}</td>
+                    <td>{{ order.order_source }}</td>
+                    {% for item in order.skus_ordered.all %}
+                        <td>{{ item.inventory_item.name }} (Quantity: {{ item.quantity }})</td>
+                    {% endfor %}
+                    <td><a href="#" class="btn btn-outline-secondary">Edit</a></td>
+                    <td><a href="#" class="btn btn-outline-danger">Delete</a></td>
+                </tr>
+                {% empty %}
+                    <h2>No orders found.</h2>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

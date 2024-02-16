@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import TemplateView, View, CreateView, UpdateView, DeleteView
+from django.views.generic import TemplateView, View, CreateView, UpdateView, DeleteView, ListView
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
 from .forms import UserRegisterForm, InventoryItemForm
-from .models import InventoryItem, Category
+from .models import InventoryItem, Category, Order
 from airhouse_project.settings import LOW_QUANTITY
 from django.contrib import messages
 
@@ -36,6 +36,12 @@ class Dashboard(LoginRequiredMixin, View):
         ).values_list('id', flat=True)
 
         return render(request, 'airhouse/dashboard.html', {'items': items, 'low_inventory_ids': low_inventory_ids})
+    
+
+class Orders(ListView):
+    model = Order
+    template_name = 'airhouse/orders.html'
+    context_object_name = 'orders'
 
 class SignUpView(View):
     def get(self, request):

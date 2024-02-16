@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path
-from .views import Index, SignUpView, LoginView, Dashboard, AddItem, EditItem, DeleteItem
+from .views import Index, SignUpView, LoginView, Dashboard, AddItem, EditItem, DeleteItem, Orders
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
@@ -9,6 +9,7 @@ urlpatterns = [
     path('add-item/', AddItem.as_view(), name='add-item'),
     path('edit-item/<int:pk>', EditItem.as_view(), name='edit-item'),
     path('delete-item/<int:pk>', DeleteItem.as_view(), name='delete-item'),
+    path('orders/', Orders.as_view(), name='orders'),
     path('register/', SignUpView.as_view(), name='register'),
     path('login/', LoginView.as_view(), name='login'),
     path('login/', auth_views.LoginView.as_view(template_name='airhouse/login.html'), name='login'),
