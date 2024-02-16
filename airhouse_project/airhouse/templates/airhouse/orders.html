@@ -46,7 +46,7 @@
                     <td>${{ order.get_payment_display }}</td>
                     <td>{{ order.order_source }}</td>
                     {% for item in order.skus_ordered.all %}
-                        <td>{{ item.inventory_item.name }} (Quantity: {{ item.quantity }})</td>
+                        <td>{{ item.inventory_item.name }} ({{ item.name }}: {{ item.quantity }})</td>
                     {% endfor %}
                     <td><a href="#" class="btn btn-outline-secondary">Edit</a></td>
                     <td><a href="#" class="btn btn-outline-danger">Delete</a></td>
