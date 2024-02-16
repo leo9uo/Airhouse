@@ -1,6 +1,8 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.contrib.auth import get_user_model
 from django.db import models
+import uuid
+
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
@@ -61,3 +63,36 @@ class Category(models.Model):
     def __str__(self):
         return self.name
         
+
+class Order(models.Model):
+    STATUS_CHOICES = [
+        ('new', 'New'),
+        ('processing', 'Processing'),
+        ('shipped', 'Shipped'),
+        ('in_transit', 'In Transit'),
+        ('delivered', 'Delivered'),
+        ('cancelled', 'Cancelled'),
+    ]
+    PAYMENT_STATUS_CHOICES = [
+        ('paid', 'Paid'),
+        ('not_paid', 'Not Paid'),
+    ]
+
+    order_no = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    recipient = models.CharField(max_length=255)
+    order_date = models.DateField(auto_now_add=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='new')
+    payment = models.CharField(max_length=10, choices=PAYMENT_STATUS_CHOICES, default='not_paid')
+    order_source = models.CharField(max_length=255)
+    skus_ordered = models.ManyToManyField(InventoryItem, through='OrderItem')
+
+    def __str__(self):
+        return f"Order {self.order_no} for {self.recipient}"
+
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    inventory_item = models.ForeignKey(InventoryItem, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField()
+
+    def __str__(self):
+        return f"{self.quantity} of {self.inventory_item.name} in order {self.order.order_no}"
