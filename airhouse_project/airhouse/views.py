@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import TemplateView, View, CreateView, UpdateView, DeleteView, ListView
+from django.views.generic import TemplateView, View, CreateView, UpdateView, DeleteView, ListView, DetailView
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
@@ -42,6 +42,11 @@ class Orders(ListView):
     model = Order
     template_name = 'airhouse/orders.html'
     context_object_name = 'orders'
+
+class OrderDetail(DetailView):
+    model = Order
+    template_name = 'airhouse/order_detail.html'
+    context_object_name = 'order'
 
 class SignUpView(View):
     def get(self, request):

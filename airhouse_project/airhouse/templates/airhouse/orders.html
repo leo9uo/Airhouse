@@ -1,13 +1,17 @@
 {% extends 'airhouse/base.html' %}  
 
 {% block content %}
-<h1>Orders</h1>
+
 
 
 <div class="row">
+   
     <div class="col-md-10 col-12 mx-auto mt-5">
+        <h1>Orders</h1>
         <div class="d-flex justify-content-end">
-            <a href="#" class="btn btn-primary">+</a>
+            <a href="#" class="btn btn-outline-secondary">Create Order</a>
+            <a href="#" class="btn btn-outline-secondary">Upload Bulk Order</a>
+            <a href="#" class="btn btn-outline-secondary">Export</a>
         </div>
 
         <table class="table table-hover table-striped">
@@ -39,7 +43,7 @@
 
                 {% for order in orders %}
                 <tr>
-                    <th scope="row">{{ order.order_no|stringformat:"s"|slice:":8" }}</th>
+                    <th scope="row"><a href="{% url 'order_detail' order.pk %}">{{ order.order_no|stringformat:"s"|slice:":8" }}</a></th>
                     <td>{{ order.recipient }}</td>
                     <td>{{ order.order_date }}</td>
                     <td>{{ order.get_status_display }}</td>

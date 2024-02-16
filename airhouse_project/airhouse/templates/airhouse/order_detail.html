@@ -1,0 +1,16 @@
+{% extends 'airhouse/base.html' %} 
+
+{% block content %}
+<h2>Order Details: {{ order.order_no }}</h2>
+<p>Recipient: {{ order.recipient }}</p>
+<p>Order Date: {{ order.order_date }}</p>
+<p>Status: {{ order.get_status_display }}</p>
+<p>Payment: {{ order.get_payment_display }}</p>
+<p>Order Source: {{ order.order_source }}</p>
+<h3>SKUs Ordered:</h3>
+<ul>
+    {% for item in order.skus_ordered.all %}
+        <li>{{ item.inventory_item.name }} (Quantity: {{ item.quantity }})</li>
+    {% endfor %}
+</ul>
+{% endblock %}
