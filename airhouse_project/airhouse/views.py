@@ -4,7 +4,7 @@ from django.views.generic import TemplateView, View, CreateView, UpdateView, Del
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
-from .forms import UserRegisterForm, InventoryItemForm
+from .forms import UserRegisterForm, InventoryItemForm, OrderForm, OrderItemFormSet
 from .models import InventoryItem, Category, Order
 from airhouse_project.settings import LOW_QUANTITY
 from django.contrib import messages
@@ -72,7 +72,7 @@ class SignUpView(View):
                 form.add_error(None, "Authentication failed.")
         # If form is not valid or authentication fails, re-render the form with errors
         return render(request, 'airhouse/signup.html', {'form': form})
-    
+# INVENTORY ITEMS
 class AddItem(LoginRequiredMixin, CreateView):
     model = InventoryItem
     form_class = InventoryItemForm
@@ -99,3 +99,62 @@ class DeleteItem(LoginRequiredMixin, DeleteView):
     template_name = 'airhouse/delete_item.html'
     success_url = reverse_lazy('dashboard')
     context_object_name = 'item'
+
+# ORDERS
+class AddOrder(CreateView):
+    model = Order
+    form_class = OrderForm
+    template_name = 'airhouse/order_form.html'
+    success_url = reverse_lazy('orders')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.POST:
+            context['formset'] = OrderItemFormSet(self.request.POST, instance=self.object)
+        else:
+            context['formset'] = OrderItemFormSet(instance=self.object)
+        return context
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        orderitems = context['formset']
+        if orderitems.is_valid():
+            self.object = form.save()
+            orderitems.instance = self.object
+            orderitems.save()
+            return redirect(self.get_success_url())
+        else:
+            return self.render_to_response(self.get_context_data(form=form))
+
+
+class EditOrder(LoginRequiredMixin, UpdateView):
+    model = Order
+    form_class = OrderForm
+    template_name = 'airhouse/order_form.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super(EditOrder, self).get_context_data(**kwargs)
+        if self.request.POST:
+            context['formset'] = OrderItemFormSet(self.request.POST, instance=self.object)
+        else:
+            context['formset'] = OrderItemFormSet(instance=self.object)
+        return context
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        formset = context['formset']
+        if formset.is_valid():
+            response = super(EditOrder, self).form_valid(form)
+            formset.instance = self.object
+            formset.save()
+            return response
+        return self.render_to_response(self.get_context_data(form=form))
+
+    def get_success_url(self):
+        return reverse_lazy('order-detail', kwargs={'pk': self.object.pk})
+
+class DeleteOrder(LoginRequiredMixin, DeleteView):
+    model = Order
+    template_name = 'airhouse/delete_order.html'
+    success_url = reverse_lazy('orders')
+    context_object_name = 'order'

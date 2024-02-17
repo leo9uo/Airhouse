@@ -1,0 +1,29 @@
+{% extends 'airhouse/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <a href="{% url 'orders' %}" class="btn btn-outline-primary my-3 mx-4">Go Back</a>
+
+    <div class="row">
+        <div class="col-11 col-md-8 mx-auto mt-5">
+            <h1>Order Items</h1>
+            
+            <form method="POST">
+                {% csrf_token %}
+                {{ form|crispy }}
+                
+                <h2>Order Items</h2>
+                {{ formset.management_form }}
+                {% for form in formset %}
+                    <div class="formset-row">
+                        {{ form|crispy }}
+                    </div>
+                {% endfor %}
+                
+                <div class="mt-3">
+                    <button type="submit" class="btn btn-primary">Add Order</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock content %}

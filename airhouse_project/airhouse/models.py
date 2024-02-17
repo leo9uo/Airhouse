@@ -90,7 +90,7 @@ class Order(models.Model):
         return f"Order {self.order_no} for {self.recipient}"
 
 class OrderItem(models.Model):
-    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    order = models.ForeignKey(Order, related_name='order_items', on_delete=models.CASCADE)
     inventory_item = models.ForeignKey(InventoryItem, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField()
 

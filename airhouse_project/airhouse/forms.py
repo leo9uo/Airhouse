@@ -1,6 +1,7 @@
 from django import forms
+from django.forms.models import inlineformset_factory
 from django.contrib.auth.forms import UserCreationForm
-from .models import CustomUser, InventoryItem, Category
+from .models import CustomUser, InventoryItem, Category, Order, OrderItem
 
 class UserRegisterForm(UserCreationForm):
     first_name = forms.CharField(max_length=30, required=True, help_text='Required.')
@@ -26,3 +27,16 @@ class InventoryItemForm(forms.ModelForm):
     class Meta:
         model = InventoryItem
         fields = ['name', 'quantity', 'price', 'category']
+
+class OrderForm(forms.ModelForm):
+    class Meta:
+        model = Order
+        fields = ['recipient', 'status', 'payment', 'order_source']
+
+#inline formset for OrderItems
+OrderItemFormSet = inlineformset_factory(
+    Order, OrderItem,
+    fields=('inventory_item', 'quantity',),
+    extra=1, 
+    can_delete=False
+)

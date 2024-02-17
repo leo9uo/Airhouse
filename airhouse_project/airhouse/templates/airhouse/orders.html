@@ -9,7 +9,7 @@
     <div class="col-md-10 col-12 mx-auto mt-5">
         <h1>Orders</h1>
         <div class="d-flex justify-content-end">
-            <a href="#" class="btn btn-outline-secondary">Create Order</a>
+            <a href="{% url 'add-order' %}" class="btn btn-outline-secondary">Create Order</a>
             <a href="#" class="btn btn-outline-secondary">Upload Bulk Order</a>
             <a href="#" class="btn btn-outline-secondary">Export</a>
         </div>
@@ -43,17 +43,20 @@
 
                 {% for order in orders %}
                 <tr>
-                    <th scope="row"><a href="{% url 'order_detail' order.pk %}">{{ order.order_no|stringformat:"s"|slice:":8" }}</a></th>
+                    <th scope="row"><a href="{% url 'order-detail' order.pk %}">{{ order.order_no|stringformat:"s"|slice:":8" }}</a></th>
                     <td>{{ order.recipient }}</td>
                     <td>{{ order.order_date }}</td>
                     <td>{{ order.get_status_display }}</td>
                     <td>${{ order.get_payment_display }}</td>
                     <td>{{ order.order_source }}</td>
-                    {% for item in order.skus_ordered.all %}
-                        <td>{{ item.inventory_item.name }} ({{ item.name }}: {{ item.quantity }})</td>
-                    {% endfor %}
-                    <td><a href="#" class="btn btn-outline-secondary">Edit</a></td>
-                    <td><a href="#" class="btn btn-outline-danger">Delete</a></td>
+                    <td>
+                        {% for item in order.order_items.all %}
+                            {{ item.inventory_item.name }} (Quantity: {{ item.quantity }})
+                            {% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td><a href="{% url 'edit-order' order.pk %}" class="btn btn-outline-secondary">Edit</a></td>
+                    <td><a href="{% url 'delete-order' order.pk %}" class="btn btn-outline-danger">Delete</a></td>
                 </tr>
                 {% empty %}
                     <h2>No orders found.</h2>
