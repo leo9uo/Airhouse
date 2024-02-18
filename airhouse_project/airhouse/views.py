@@ -5,6 +5,8 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
 from .forms import UserRegisterForm, InventoryItemForm, OrderForm, OrderItemFormSet
+from django_filters.views import FilterView
+from .filters import OrderFilter
 from .models import InventoryItem, Category, Order
 from airhouse_project.settings import LOW_QUANTITY
 from django.contrib import messages
@@ -14,39 +16,6 @@ class Index(TemplateView):
 
 class LoginView(LoginView):
     template_name = 'airhouse/login.html'
-
-class Dashboard(LoginRequiredMixin, View):
-    def get(self, request):
-        items = InventoryItem.objects.filter(user=self.request.user.id).order_by('id')
-
-        low_inventory = InventoryItem.objects.filter(
-            user=self.request.user.id,
-            quantity__lte=LOW_QUANTITY
-        )
-
-        if low_inventory.count() > 0:
-            if low_inventory.count() > 1:
-                messages.error(request, f'{low_inventory.count()} items have low inventory')
-            else:
-                messages.error(request, f'{low_inventory.count()} item has low inventory')
-
-        low_inventory_ids = InventoryItem.objects.filter(
-            user=self.request.user.id,
-            quantity__lte=LOW_QUANTITY
-        ).values_list('id', flat=True)
-
-        return render(request, 'airhouse/dashboard.html', {'items': items, 'low_inventory_ids': low_inventory_ids})
-    
-
-class Orders(ListView):
-    model = Order
-    template_name = 'airhouse/orders.html'
-    context_object_name = 'orders'
-
-class OrderDetail(DetailView):
-    model = Order
-    template_name = 'airhouse/order_detail.html'
-    context_object_name = 'order'
 
 class SignUpView(View):
     def get(self, request):
@@ -72,6 +41,31 @@ class SignUpView(View):
                 form.add_error(None, "Authentication failed.")
         # If form is not valid or authentication fails, re-render the form with errors
         return render(request, 'airhouse/signup.html', {'form': form})
+    
+
+class Dashboard(LoginRequiredMixin, View):
+    def get(self, request):
+        items = InventoryItem.objects.filter(user=self.request.user.id).order_by('id')
+
+        low_inventory = InventoryItem.objects.filter(
+            user=self.request.user.id,
+            quantity__lte=LOW_QUANTITY
+        )
+
+        if low_inventory.count() > 0:
+            if low_inventory.count() > 1:
+                messages.error(request, f'{low_inventory.count()} items have low inventory')
+            else:
+                messages.error(request, f'{low_inventory.count()} item has low inventory')
+
+        low_inventory_ids = InventoryItem.objects.filter(
+            user=self.request.user.id,
+            quantity__lte=LOW_QUANTITY
+        ).values_list('id', flat=True)
+
+        return render(request, 'airhouse/dashboard.html', {'items': items, 'low_inventory_ids': low_inventory_ids})
+
+
 # INVENTORY ITEMS
 class AddItem(LoginRequiredMixin, CreateView):
     model = InventoryItem
@@ -101,6 +95,24 @@ class DeleteItem(LoginRequiredMixin, DeleteView):
     context_object_name = 'item'
 
 # ORDERS
+class Orders(FilterView):
+    model = Order
+    template_name = 'airhouse/orders.html'
+    context_object_name = 'orders'
+    filterset_class = OrderFilter
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['myFilter'] = OrderFilter(self.request.GET, queryset=self.get_queryset())
+        return context
+
+
+class OrderDetail(DetailView):
+    model = Order
+    template_name = 'airhouse/order_detail.html'
+    context_object_name = 'order'
+
+
 class AddOrder(CreateView):
     model = Order
     form_class = OrderForm
@@ -158,3 +170,4 @@ class DeleteOrder(LoginRequiredMixin, DeleteView):
     template_name = 'airhouse/delete_order.html'
     success_url = reverse_lazy('orders')
     context_object_name = 'order'
+
