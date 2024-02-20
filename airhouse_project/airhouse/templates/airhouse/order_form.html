@@ -6,22 +6,26 @@
 
     <div class="row">
         <div class="col-11 col-md-8 mx-auto mt-5">
-            <h1>Order Items</h1>
+            <h1>{% if form.instance.pk %}Edit Order{% else %}Add Order{% endif %}</h1>
             
             <form method="POST">
                 {% csrf_token %}
                 {{ form|crispy }}
                 
-                <h2>Order Items</h2>
+                <h4>Order Items</h4>
                 {{ formset.management_form }}
                 {% for form in formset %}
-                    <div class="formset-row">
-                        {{ form|crispy }}
-                    </div>
+                    {% if forloop.last and form.instance.pk or not form.instance.pk and not forloop.first %}
+                        
+                    {% else %}
+                        <div class="formset-row">
+                            {{ form|crispy }}
+                        </div>
+                    {% endif %}
                 {% endfor %}
                 
                 <div class="mt-3">
-                    <button type="submit" class="btn btn-primary">Add Order</button>
+                    <button type="submit" class="btn btn-primary">{% if form.instance.pk %}Update Order{% else %}Add Order{% endif %}</button>
                 </div>
             </form>
         </div>
