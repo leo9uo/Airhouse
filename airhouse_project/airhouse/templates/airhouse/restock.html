@@ -1,0 +1,90 @@
+{% extends 'airhouse/base.html' %}
+
+{% block content %}
+
+{% if low_inventory_ids %}
+    <div class="row">
+        <div class="col-md-10 col-12 mx-auto mt-5">
+            <h1><a href="{% url 'dashboard' %}" class="text-reset text-decoration-none">Restock</a></h1>
+            <table class="table table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">NAME</th>
+                        <th scope="col">QTY</th>
+                        <th scope="col">PRICE</th>
+                        <th scope="col">CATEGORY</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                        {% if item.id in low_inventory_ids %}
+                        <tr class="text-danger">
+                            <th scope="row">{{ item.id }}</th>
+                            <td>{{ item.name }}</td>
+                            {% if item.id in low_inventory_ids %}
+                                <td class="text-danger">{{ item.quantity }}</td>
+                            {% else %}
+                                <td class="text-success">{{ item.quantity }}</td>
+                            {% endif %}
+                            <td>${{ item.price }}</td>
+                            <td>{{ item.category.name }}</td>
+                            <td><a href="{% url 'edit-item' item.id %}" class="btn btn-outline-secondary">Edit</a></td>
+                            <td><a href="{% url 'delete-item' item.id %}" class="btn btn-outline-danger">Delete</a></td>
+                        </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endif %}
+
+<div class="row">
+    <div class="col-md-10 col-12 mx-auto mt-5">
+        <h1><a href="#" class="text-reset text-decoration-none">Current Inventory</a></h1>
+        <table class="table table-hover table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">NAME</th>
+                    <th scope="col">QTY</th>
+                    <th scope="col">PRICE</th>
+                    <th scope="col">CATEGORY</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if items|length == 0 %}
+                <tr>
+                    <th scope="row">-</th>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td></td>
+                </tr>
+                {% else %}
+                    {% for item in items %}
+                    <tr {% if item.id in low_inventory_ids %}class="text-danger"{% else %}class="text-success"{% endif %}>
+                        <th scope="row">{{ item.id }}</th>
+                        <td>{{ item.name }}</td>
+                        {% if item.id in low_inventory_ids %}
+                            <td class="text-danger">{{ item.quantity }}</td>
+                        {% else %}
+                            <td class="text-success">{{ item.quantity }}</td>
+                        {% endif %}
+                        <td>${{ item.price }}</td>
+                        <td>{{ item.category.name }}</td>
+                        <td><a href="{% url 'edit-item' item.id %}" class="btn btn-outline-secondary">Edit</a></td>
+                        <td><a href="{% url 'delete-item' item.id %}" class="btn btn-outline-danger">Delete</a></td>
+                    </tr>
+                    {% endfor %}
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock content %}

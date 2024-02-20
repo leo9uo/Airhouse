@@ -10,7 +10,7 @@
                     {% if message.tags == 'error' %}
                         <!-- Add a title attribute to include the item names on hover -->
                         <div class="col-md-10 col-12 mx-auto alert alert-danger" title="{{ message }}">
-                            {{ message|slice:":message.find(':') + 1" }}  <!-- Adjust this if you modify the message structure -->
+                           <a href="{% url 'restock' %}">{{ message|slice:":message.find(':') + 1" }}</a>  
                         </div>
                     {% else %}
                         <div class="col-md-10 col-12 mx-auto alert alert-success">
@@ -27,7 +27,6 @@
             <div class="d-flex justify-content-end">
                 <a href="{% url 'add-item' %}" class="btn btn-primary">+</a>
             </div>
-
             <table class="table table-hover table-striped">
                 <thead>
                     <tr>

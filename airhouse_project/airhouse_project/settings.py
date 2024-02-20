@@ -137,4 +137,4 @@ LOGIN_URL = 'login'
 
 LOGIN_REDIRECT_URL ='/dashboard'
 
-LOW_QUANTITY = 10
+LOW_QUANTITY = 5

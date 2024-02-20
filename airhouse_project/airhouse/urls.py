@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path
-from .views import Index, SignUpView, LoginView, Dashboard, AddItem, EditItem, DeleteItem, Orders, OrderDetail, AddOrder, EditOrder, DeleteOrder
+from .views import Index, SignUpView, LoginView, Dashboard, AddItem, EditItem, DeleteItem, Orders, OrderDetail, AddOrder, EditOrder, DeleteOrder, Restock
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
@@ -14,6 +14,7 @@ urlpatterns = [
     path('add-order/', AddOrder.as_view(), name='add-order'),
     path('edit-order/<int:pk>', EditOrder.as_view(), name='edit-order'),
     path('delete-order/<int:pk>', DeleteOrder.as_view(), name='delete-order'),
+    path('restock/', Restock.as_view(), name='restock'),
     path('register/', SignUpView.as_view(), name='register'),
     path('login/', LoginView.as_view(), name='login'),
     path('login/', auth_views.LoginView.as_view(template_name='airhouse/login.html'), name='login'),

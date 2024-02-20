@@ -48,14 +48,14 @@ class Dashboard(View):
         items = InventoryItem.objects.filter(user=request.user.id).order_by('id')
         low_inventory = items.filter(quantity__lte=LOW_QUANTITY)
 
-        # Fetch the names of items with low inventory
-        low_inventory_items = low_inventory.values_list('name', flat=True)
+        # # Fetch the names of items with low inventory
+        # low_inventory_items = low_inventory.values_list('name', flat=True)
 
-        # Generate a comma-separated string of item names
-        low_inventory_item_names = ', '.join(low_inventory_items)
+        # # Generate a comma-separated string of item names
+        # low_inventory_item_names = ', '.join(low_inventory_items)
 
         if low_inventory.count() > 0:
-            message_text = f'{low_inventory.count()} item{"s" if low_inventory.count() > 1 else ""} have low inventory.'
+            message_text = f'{low_inventory.count()} item{"s" if low_inventory.count() > 1 else ""} {"have" if low_inventory.count() > 1 else "has"} low inventory.'
             messages.error(request, message_text)
 
         low_inventory_ids = low_inventory.values_list('id', flat=True)
@@ -171,3 +171,14 @@ class DeleteOrder(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('orders')
     context_object_name = 'order'
 
+
+class Restock(LoginRequiredMixin, View):
+    def get(self, request):
+        items = InventoryItem.objects.filter(user=request.user.id).order_by('id')
+        low_inventory = items.filter(quantity__lte=LOW_QUANTITY)
+        low_inventory_ids = low_inventory.values_list('id', flat=True)
+
+        return render(request, 'airhouse/restock.html', {
+            'items': items,
+            'low_inventory_ids': low_inventory_ids
+        })
