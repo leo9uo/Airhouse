@@ -1,14 +1,13 @@
 {% extends 'airhouse/base.html' %}
 
 {% block content %}
-<div>
-	<div class="row">
-		<div class="col-sm-11 col-md-4 mx-auto mt-5 px-3">
-			<h1 class="fw-light">Scalable operations for scaling brands</h1>
-			<p class="fw-light">Airhouse is a network of high-volume, high-performance warehouses connected by powerful technology. Leverage unparalleled data insights to scale with the efficiency of the world’s largest brands.</p>
-
-			<div>
-				<a href="{% url 'dashboard' %}" class="btn btn-primary">Get Started Now!</a>
+<div class="container my-5 py-5">
+	<div class="row justify-content-center">
+		<div class="col-lg-8 mx-auto text-center">
+			<h1 class="display-4 fw-light text-primary">Scalable operations for scaling brands</h1>
+			<p class="lead fw-light mt-4">Airhouse is a network of high-volume, high-performance warehouses connected by powerful technology. Leverage unparalleled data insights to scale with the efficiency of the world’s largest brands.</p>
+			<div class="mt-5">
+				<a href="{% url 'dashboard' %}" class="btn btn-lg btn-primary">Get Started Now!</a>
 			</div>
 		</div>
 	</div>

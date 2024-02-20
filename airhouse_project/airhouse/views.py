@@ -44,7 +44,7 @@ class SignUpView(View):
         return render(request, 'airhouse/signup.html', {'form': form})
     
 
-class Dashboard(View):
+class Dashboard(LoginRequiredMixin, View):
     def get(self, request):
         items = InventoryItem.objects.filter(user=request.user.id).order_by('id')
         low_inventory = items.filter(quantity__lte=LOW_QUANTITY)
