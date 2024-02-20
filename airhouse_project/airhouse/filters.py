@@ -1,19 +1,14 @@
-import django_filters
-from django import forms
-
+from django_filters import FilterSet, CharFilter, DateFilter
+from django.forms.widgets import TextInput, DateInput
 from .models import *
 
-class DateInput(forms.DateInput):
-    input_type = 'date'
+class OrderFilter(FilterSet):
+    order_date = DateFilter(widget=DateInput(attrs={'placeholder': 'Order Date', 'class': 'form-control'}))
+    recipient = CharFilter(lookup_expr='icontains', widget=TextInput(attrs={'placeholder': 'Recipient', 'class': 'form-control'}))
+    order_source = CharFilter(lookup_expr='icontains', widget=TextInput(attrs={'placeholder': 'Order Source', 'class': 'form-control'}))
+    skus_ordered = CharFilter(field_name='skus_ordered__name', lookup_expr='icontains', widget=TextInput(attrs={'placeholder': 'SKUs Ordered', 'class': 'form-control'}))
 
-class OrderFilter(django_filters.FilterSet):
-    # use for date field UI on orders filter
-    order_date = django_filters.DateFilter(field_name='order_date', widget=DateInput())
-    
     class Meta:
         model = Order
         fields = ['order_date', 'status', 'payment', 'order_source', 'recipient', 'skus_ordered']
-
-
-
 

@@ -15,9 +15,21 @@
         </div>
 
         <form method="get" class="d-flex align-items-end gap-2">
-                {{ myFilter.form }}
+            {% for field in myFilter.form %}
+                <div class="form-group">
+                    {% if field.name in "order_source,recipient,skus_ordered" %}
+                        <!-- Only render the widget for specific fields -->
+                        {{ field }}
+                    {% else %}
+                        <!-- Render the field with its label for other fields -->
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {{ field }}
+                    {% endif %}
+                </div>
+            {% endfor %}
             <button class="btn btn-primary" type="submit">Search</button>
         </form>
+        
 
         <table class="table table-hover table-striped">
             <thead>
