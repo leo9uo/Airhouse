@@ -1,6 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, View, CreateView, UpdateView, DeleteView, ListView, DetailView
+from django.views.decorators.http import require_POST
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
@@ -174,10 +175,36 @@ class DeleteOrder(LoginRequiredMixin, DeleteView):
 
 class Restock(LoginRequiredMixin, View):
     def get(self, request):
+        return self.render_restock_page(request)
+
+    def post(self, request):
+        # Extract necessary data from the POST request
+        item_id = request.POST.get('item_id')
+        adjust_amount = int(request.POST.get('adjust_amount'))
+        action = request.POST.get('action')
+
+        # Fetch the specific inventory item
+        item = InventoryItem.objects.get(id=item_id, user=request.user)
+
+        # Adjust the item quantity based on the action
+        if action == 'add':
+            item.quantity += adjust_amount
+        elif action == 'subtract':
+            item.quantity = max(item.quantity - adjust_amount, 0)  # Prevent negative quantities
+
+        # Save the updated item
+        item.save()
+
+        # After processing, render the same page again with updated context
+        return self.render_restock_page(request)
+
+    def render_restock_page(self, request):
+        # Get all items and those with low inventory
         items = InventoryItem.objects.filter(user=request.user.id).order_by('id')
         low_inventory = items.filter(quantity__lte=LOW_QUANTITY)
         low_inventory_ids = low_inventory.values_list('id', flat=True)
 
+        # Render the restock page with the items and low inventory info
         return render(request, 'airhouse/restock.html', {
             'items': items,
             'low_inventory_ids': low_inventory_ids

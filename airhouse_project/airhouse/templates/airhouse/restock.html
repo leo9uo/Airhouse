@@ -5,7 +5,7 @@
 {% if low_inventory_ids %}
     <div class="row">
         <div class="col-md-10 col-12 mx-auto mt-5">
-            <h1><a href="{% url 'dashboard' %}" class="text-reset text-decoration-none">Restock</a></h1>
+            <h1><a href="#" class="text-reset text-decoration-none">Restock</a></h1>
             <table class="table table-hover table-striped">
                 <thead>
                     <tr>
@@ -23,15 +23,18 @@
                         <tr class="text-danger">
                             <th scope="row">{{ item.id }}</th>
                             <td>{{ item.name }}</td>
-                            {% if item.id in low_inventory_ids %}
-                                <td class="text-danger">{{ item.quantity }}</td>
-                            {% else %}
-                                <td class="text-success">{{ item.quantity }}</td>
-                            {% endif %}
+                            <td class="text-danger">{{ item.quantity }}</td>
                             <td>${{ item.price }}</td>
                             <td>{{ item.category.name }}</td>
-                            <td><a href="#" class="btn btn-outline-danger">Sub</a></td>
-                            <td><a href="#" class="btn btn-outline-secondary">Add</a></td>
+                            <td colspan="2">
+                                <form method="POST" action="">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="item_id" value="{{ item.id }}">
+                                    <button type="submit" name="action" value="subtract" class="btn btn-outline-danger">Sub</button>
+                                    <input type="number" name="adjust_amount" min="1" placeholder="Qty" class="form-control form-control-sm square-input" style="width: 60px; display: inline-block;">
+                                    <button type="submit" name="action" value="add" class="btn btn-outline-secondary">Add</button>
+                                </form>
+                            </td>
                         </tr>
                         {% endif %}
                     {% endfor %}
