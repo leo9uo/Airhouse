@@ -1,16 +1,27 @@
-{% extends 'airhouse/base.html' %} 
+{% extends 'airhouse/base.html' %}
 
 {% block content %}
-<h2>Order Details: {{ order.order_no }}</h2>
-<p>Recipient: {{ order.recipient }}</p>
-<p>Order Date: {{ order.order_date }}</p>
-<p>Status: {{ order.get_status_display }}</p>
-<p>Payment: {{ order.get_payment_display }}</p>
-<p>Order Source: {{ order.order_source }}</p>
-<h3>SKUs Ordered:</h3>
-<ul>
-    {% for item in order.skus_ordered.all %}
-        <li>{{ item.inventory_item.name }} (Quantity: {{ item.quantity }})</li>
-    {% endfor %}
-</ul>
+<a href="javascript:history.back()" class="btn btn-outline-primary my-3 mx-4">Go Back</a>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <h2 class="mb-4">Order Details: {{ order.order_no }}</h2>
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">Recipient: {{ order.recipient }}</h3>
+                    <p class="card-text"><strong>Order Date:</strong> {{ order.order_date|date:"F d, Y" }}</p>
+                    <p class="card-text"><strong>Status:</strong> {{ order.get_status_display }}</p>
+                    <p class="card-text"><strong>Payment:</strong> {{ order.get_payment_display }}</p>
+                    <p class="card-text"><strong>Order Source:</strong> {{ order.order_source }}</p>
+                </div>
+            </div>
+            <h3 class="mt-4">SKUs Ordered:</h3>
+            <ul class="list-group list-group-flush">
+                {% for item in order.skus_ordered.all %}
+                    <li class="list-group-item">{{ item.name }} (Quantity: {{ item.quantity }})</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
 {% endblock %}
