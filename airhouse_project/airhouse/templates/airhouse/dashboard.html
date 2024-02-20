@@ -4,24 +4,26 @@
 
 
 
-    {% if messages %}
-        <div class="row mt-3">
-            {% for message in messages %}
-                {% if message.tags == 'error' %}
-                    <div class="col-md-10 col-12 mx-auto alert alert-danger">
-                        {{ message }}
-                    </div>
-                {% else %}
-                    <div class="col-md-10 col-12 mx-auto alert alert-success">
-                        {{ message }}
-                    </div> 
-                {% endif %}
-            {% endfor %}
-    {% endif %}
+        {% if messages %}
+            <div class="row mt-3">
+                {% for message in messages %}
+                    {% if message.tags == 'error' %}
+                        <!-- Add a title attribute to include the item names on hover -->
+                        <div class="col-md-10 col-12 mx-auto alert alert-danger" title="{{ message }}">
+                            {{ message|slice:":message.find(':') + 1" }}  <!-- Adjust this if you modify the message structure -->
+                        </div>
+                    {% else %}
+                        <div class="col-md-10 col-12 mx-auto alert alert-success">
+                            {{ message }}
+                        </div> 
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endif %}
         </div>
     <div class="row">
         <div class="col-md-10 col-12 mx-auto mt-5">
-            <h1>Inventory</h1>
+            <h1><a href="{% url 'dashboard' %}" class="text-reset text-decoration-none">Inventory</a></h1>
             <div class="d-flex justify-content-end">
                 <a href="{% url 'add-item' %}" class="btn btn-primary">+</a>
             </div>

@@ -43,27 +43,27 @@ class SignUpView(View):
         return render(request, 'airhouse/signup.html', {'form': form})
     
 
-class Dashboard(LoginRequiredMixin, View):
+class Dashboard(View):
     def get(self, request):
-        items = InventoryItem.objects.filter(user=self.request.user.id).order_by('id')
+        items = InventoryItem.objects.filter(user=request.user.id).order_by('id')
+        low_inventory = items.filter(quantity__lte=LOW_QUANTITY)
 
-        low_inventory = InventoryItem.objects.filter(
-            user=self.request.user.id,
-            quantity__lte=LOW_QUANTITY
-        )
+        # Fetch the names of items with low inventory
+        low_inventory_items = low_inventory.values_list('name', flat=True)
+
+        # Generate a comma-separated string of item names
+        low_inventory_item_names = ', '.join(low_inventory_items)
 
         if low_inventory.count() > 0:
-            if low_inventory.count() > 1:
-                messages.error(request, f'{low_inventory.count()} items have low inventory')
-            else:
-                messages.error(request, f'{low_inventory.count()} item has low inventory')
+            message_text = f'{low_inventory.count()} item{"s" if low_inventory.count() > 1 else ""} have low inventory.'
+            messages.error(request, message_text)
 
-        low_inventory_ids = InventoryItem.objects.filter(
-            user=self.request.user.id,
-            quantity__lte=LOW_QUANTITY
-        ).values_list('id', flat=True)
+        low_inventory_ids = low_inventory.values_list('id', flat=True)
 
-        return render(request, 'airhouse/dashboard.html', {'items': items, 'low_inventory_ids': low_inventory_ids})
+        return render(request, 'airhouse/dashboard.html', {
+            'items': items,
+            'low_inventory_ids': low_inventory_ids
+        })
 
 
 # INVENTORY ITEMS
