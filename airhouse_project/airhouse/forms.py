@@ -33,9 +33,21 @@ class OrderForm(forms.ModelForm):
         model = Order
         fields = ['recipient', 'status', 'payment', 'order_source']
 
+class OrderItemForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(OrderItemForm, self).__init__(*args, **kwargs)
+        # Set the queryset for inventory_item to include all inventory items
+        self.fields['inventory_item'].queryset = InventoryItem.objects.all()
+
+    class Meta:
+        model = OrderItem
+        fields = ['inventory_item', 'quantity']
+
+
 #inline formset for OrderItems
 OrderItemFormSet = inlineformset_factory(
     Order, OrderItem,
+    form=OrderItemForm,
     fields=('inventory_item', 'quantity',),
     extra=1, 
     can_delete=False

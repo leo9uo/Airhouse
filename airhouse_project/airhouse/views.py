@@ -125,8 +125,14 @@ class AddOrder(CreateView):
         if self.request.POST:
             context['formset'] = OrderItemFormSet(self.request.POST, instance=self.object)
         else:
-            context['formset'] = OrderItemFormSet(instance=self.object)
+        # Example of dynamically adjusting the formset's form querysets based on request or session
+            formset = OrderItemFormSet(instance=self.object)
+        # This is just an example. Adjust or remove according to your actual requirements.
+        #= for form in formset.forms:
+        #     form.fields['inventory_item'].queryset = InventoryItem.objects.filter(some_dynamic_filter=self.request.user)
+            context['formset'] = formset
         return context
+
 
     def form_valid(self, form):
         context = self.get_context_data()
