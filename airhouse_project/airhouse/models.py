@@ -89,6 +89,8 @@ class Order(models.Model):
     def __str__(self):
         return f"Order {self.order_no} for {self.recipient}"
 
+
+# Through model
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, related_name='order_items', on_delete=models.CASCADE)
     inventory_item = models.ForeignKey(InventoryItem, on_delete=models.CASCADE)
