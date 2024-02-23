@@ -8,7 +8,7 @@ class UserRegisterForm(UserCreationForm):
     last_name = forms.CharField(max_length=30, required=True, help_text='Required.')
     company_name = forms.CharField(max_length=100, required=True, help_text='Required.')
     email = forms.EmailField(max_length=254, help_text='Enter a valid email address.')
-    invitation_code = forms.CharField(max_length=100, required=True, help_text='Required.')
+    invitation_code = forms.CharField(max_length=100, required=True, help_text='Required. Use any integer.')
 
     class Meta:
         model = CustomUser
