@@ -5,7 +5,7 @@ from django.views.decorators.http import require_POST
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
-from .forms import UserRegisterForm, InventoryItemForm, OrderForm, OrderItemFormSet
+from .forms import UserRegisterForm, InventoryItemForm, OrderForm, OrderItemFormSet, CategoryForm
 from django_filters.views import FilterView
 from .filters import OrderFilter
 from .models import InventoryItem, Category, Order
@@ -66,6 +66,12 @@ class Dashboard(LoginRequiredMixin, View):
             'low_inventory_ids': low_inventory_ids
         })
 
+# CATEGORIES
+class CreateCategoryView(LoginRequiredMixin, CreateView):
+    model = Category
+    form_class = CategoryForm
+    template_name = 'airhouse/category_form.html' 
+    success_url = reverse_lazy('dashboard')    
 
 # INVENTORY ITEMS
 class AddItem(LoginRequiredMixin, CreateView):
@@ -94,6 +100,7 @@ class DeleteItem(LoginRequiredMixin, DeleteView):
     template_name = 'airhouse/delete_item.html'
     success_url = reverse_lazy('dashboard')
     context_object_name = 'item'
+
 
 # ORDERS
 class Orders(FilterView):

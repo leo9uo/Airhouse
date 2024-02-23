@@ -28,6 +28,11 @@ class InventoryItemForm(forms.ModelForm):
         model = InventoryItem
         fields = ['name', 'quantity', 'price', 'category']
 
+class CategoryForm(forms.ModelForm):
+    class Meta:
+        model = Category
+        fields = ['name']
+
 class OrderForm(forms.ModelForm):
     class Meta:
         model = Order

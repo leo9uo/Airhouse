@@ -1,11 +1,12 @@
 from django.contrib import admin
 from django.urls import path
-from .views import Index, SignUpView, LoginView, Dashboard, AddItem, EditItem, DeleteItem, Orders, OrderDetail, AddOrder, EditOrder, DeleteOrder, Restock
+from .views import Index, SignUpView, LoginView, Dashboard, CreateCategoryView, AddItem, EditItem, DeleteItem, Orders, OrderDetail, AddOrder, EditOrder, DeleteOrder, Restock
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('', Index.as_view(), name='index'),
     path('dashboard/', Dashboard.as_view(), name='dashboard'),
+    path('create-category/', CreateCategoryView.as_view(), name='create-category'),
     path('add-item/', AddItem.as_view(), name='add-item'),
     path('edit-item/<int:pk>', EditItem.as_view(), name='edit-item'),
     path('delete-item/<int:pk>', DeleteItem.as_view(), name='delete-item'),
