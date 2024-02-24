@@ -15,9 +15,9 @@
         </div>
 
         <form method="get" class="d-flex align-items-end gap-2">
-            {% for field in myFilter.form %}
+            {% for field in filter.form %}
                 <div class="form-group">
-                    {% if field.name in "order_source,recipient,skus_ordered" %}
+                    {% if field.name in "status,payment,order_source,recipient,skus_ordered" %}
                         <!-- Only render the widget for specific fields -->
                         {{ field }}
                     {% else %}

@@ -1,4 +1,5 @@
-from django_filters import FilterSet, CharFilter, DateFilter
+from django import forms
+from django_filters import FilterSet, CharFilter, ChoiceFilter, DateFilter
 from django.forms.widgets import TextInput, DateInput
 from .models import *
 
@@ -7,6 +8,9 @@ class OrderFilter(FilterSet):
     recipient = CharFilter(lookup_expr='istartswith', widget=TextInput(attrs={'placeholder': 'Recipient', 'class': 'form-control'}))
     order_source = CharFilter(lookup_expr='istartswith', widget=TextInput(attrs={'placeholder': 'Order Source', 'class': 'form-control'}))
     skus_ordered = CharFilter(method='filter_skus_ordered', widget=TextInput(attrs={'placeholder': 'SKUs Ordered', 'class': 'form-control'}))
+
+    status = ChoiceFilter(choices=[('', 'Order Status ⧨'),] + Order.STATUS_CHOICES, empty_label=None, widget=forms.Select(attrs={'class': 'form-control'}))
+    payment = ChoiceFilter(choices=[('', 'Payment Status ⧨'),] + Order.PAYMENT_STATUS_CHOICES, empty_label=None, widget=forms.Select(attrs={'class': 'form-control'}))
 
     class Meta:
         model = Order

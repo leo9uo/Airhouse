@@ -116,7 +116,7 @@ class Orders(FilterView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['myFilter'] = OrderFilter(self.request.GET, queryset=self.get_queryset())
+        context['filter'] = OrderFilter(self.request.GET, queryset=self.get_queryset())
         return context
 
 
@@ -137,11 +137,7 @@ class AddOrder(CreateView):
         if self.request.POST:
             context['formset'] = OrderItemFormSet(self.request.POST, instance=self.object)
         else:
-        # Example of dynamically adjusting the formset's form querysets based on request or session
             formset = OrderItemFormSet(instance=self.object)
-        # This is just an example. Adjust or remove according to your actual requirements.
-        #= for form in formset.forms:
-        #     form.fields['inventory_item'].queryset = InventoryItem.objects.filter(some_dynamic_filter=self.request.user)
             context['formset'] = formset
         return context
 
