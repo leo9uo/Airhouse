@@ -223,3 +223,19 @@ class Restock(LoginRequiredMixin, View):
             'items': items,
             'low_inventory_ids': low_inventory_ids
         })
+
+# BILLING
+class Billing(TemplateView):
+    template_name = 'airhouse/billing.html'
+
+class Returns(TemplateView):
+    template_name = 'airhouse/returns.html'
+
+class Projects(TemplateView):
+    template_name = 'airhouse/projects.html'
+
+class Refer(TemplateView):
+    template_name = 'airhouse/refer.html'
+
+class Help(TemplateView):
+    template_name = 'airhouse/help.html'
