@@ -82,7 +82,7 @@ class Order(models.Model):
     recipient = models.CharField(max_length=255)
     order_date = models.DateField(auto_now_add=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='new')
-    payment = models.CharField(max_length=10, choices=PAYMENT_STATUS_CHOICES, default='not_paid')
+    payment = models.CharField(max_length=20, choices=PAYMENT_STATUS_CHOICES, default='not_paid')
     order_source = models.CharField(max_length=255)
     skus_ordered = models.ManyToManyField(InventoryItem, through='OrderItem')
 

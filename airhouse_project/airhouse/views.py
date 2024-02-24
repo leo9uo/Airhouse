@@ -7,7 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
 from .forms import UserRegisterForm, InventoryItemForm, OrderForm, OrderItemFormSet, CategoryForm
 from django_filters.views import FilterView
-from .filters import OrderFilter
+from .filters import OrderFilter, InventoryFilter
 from .models import InventoryItem, Category, Order
 from airhouse_project.settings import LOW_QUANTITY
 from django.contrib import messages
@@ -46,26 +46,31 @@ class SignUpView(View):
 
 class Dashboard(LoginRequiredMixin, View):
     def get(self, request):
+        # Get all items for the current user
         items = InventoryItem.objects.filter(user=request.user.id).order_by('id')
-        low_inventory = items.filter(quantity__lte=LOW_QUANTITY)
+        
+        # Apply the filter
+        inventory_filter = InventoryFilter(request.GET, queryset=items)
 
-        # # Fetch the names of items with low inventory
-        # low_inventory_items = low_inventory.values_list('name', flat=True)
+        # Filtered items
+        filtered_items = inventory_filter.qs
 
-        # # Generate a comma-separated string of item names
-        # low_inventory_item_names = ', '.join(low_inventory_items)
-
+        # Find low inventory items within the filtered queryset
+        low_inventory = filtered_items.filter(quantity__lte=LOW_QUANTITY)
         if low_inventory.count() > 0:
             message_text = f'{low_inventory.count()} item{"s" if low_inventory.count() > 1 else ""} {"have" if low_inventory.count() > 1 else "has"} low inventory.'
             messages.error(request, message_text)
-
+        
         low_inventory_ids = low_inventory.values_list('id', flat=True)
 
+        # Pass both the filter and filtered items to the template
         return render(request, 'airhouse/dashboard.html', {
-            'items': items,
-            'low_inventory_ids': low_inventory_ids
+            'filter': inventory_filter,  # Pass the filter to the template to render the form
+            'items': filtered_items,  # Now passing filtered items
+            'low_inventory_ids': low_inventory_ids,
         })
-
+    
+    
 # CATEGORIES
 class CreateCategoryView(LoginRequiredMixin, CreateView):
     model = Category
