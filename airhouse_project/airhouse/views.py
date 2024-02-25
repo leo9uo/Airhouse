@@ -108,7 +108,7 @@ class DeleteItem(LoginRequiredMixin, DeleteView):
 
 
 # ORDERS
-class Orders(FilterView):
+class Orders(LoginRequiredMixin, FilterView):
     model = Order
     template_name = 'airhouse/orders.html'
     context_object_name = 'orders'
@@ -120,13 +120,13 @@ class Orders(FilterView):
         return context
 
 
-class OrderDetail(DetailView):
+class OrderDetail(LoginRequiredMixin, DetailView):
     model = Order
     template_name = 'airhouse/order_detail.html'
     context_object_name = 'order'
 
 
-class AddOrder(CreateView):
+class AddOrder(LoginRequiredMixin, CreateView):
     model = Order
     form_class = OrderForm
     template_name = 'airhouse/order_form.html'
@@ -225,17 +225,17 @@ class Restock(LoginRequiredMixin, View):
         })
 
 # BILLING
-class Billing(TemplateView):
+class Billing(LoginRequiredMixin, TemplateView):
     template_name = 'airhouse/billing.html'
 
-class Returns(TemplateView):
+class Returns(LoginRequiredMixin, TemplateView):
     template_name = 'airhouse/returns.html'
 
-class Projects(TemplateView):
+class Projects(LoginRequiredMixin, TemplateView):
     template_name = 'airhouse/projects.html'
 
-class Refer(TemplateView):
+class Refer(LoginRequiredMixin, TemplateView):
     template_name = 'airhouse/refer.html'
 
-class Help(TemplateView):
+class Help(LoginRequiredMixin, TemplateView):
     template_name = 'airhouse/help.html'
