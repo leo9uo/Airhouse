@@ -14,6 +14,9 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 
+dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
+load_dotenv(dotenv_path)
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -22,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-0apqibv)zuw@3^!))kjy8-1p_rv+zxopkl@b@88zf3c@j08=cn'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -86,7 +89,7 @@ DATABASES = {
         'NAME': 'airhouse',
         'USER': 'connorcappello',
         'PASSWORD': os.getenv('DATABASE_PASSWORD', ''),
-        'HOST': 'localhost',
+        'HOST': 'database-1.czos4ga289gj.us-west-1.rds.amazonaws.com',
         'PORT': '5432',
     }
 }
