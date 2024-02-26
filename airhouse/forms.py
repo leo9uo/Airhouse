@@ -18,7 +18,7 @@ class UserRegisterForm(UserCreationForm):
         super(UserRegisterForm, self).__init__(*args, **kwargs)
         self.fields['password1'].help_text = 'Enter a password.'
         self.fields['password2'].help_text = 'Enter the same password as before, for verification.'
-        # Optionally, reorder fields if needed
+        
         self.order_fields(('first_name', 'last_name', 'company_name', 'email', 'password1', 'password2', 'invitation_code'))
 
 

@@ -26,7 +26,7 @@ class SignUpView(View):
     def post(self, request):
         form = UserRegisterForm(request.POST)
         if form.is_valid():
-            user = form.save()  # This saves the user instance
+            user = form.save()  # Save the user instance
             
             
             email = form.cleaned_data.get('email')
