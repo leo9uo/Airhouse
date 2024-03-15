@@ -29,7 +29,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['airhouse-clone-0cd160f36786.herokuapp.com', '127.0.0.1', 'localhost']
 
@@ -38,6 +38,7 @@ ALLOWED_HOSTS = ['airhouse-clone-0cd160f36786.herokuapp.com', '127.0.0.1', 'loca
 
 INSTALLED_APPS = [
     'airhouse',
+    'client_side',
     'crispy_forms', 
     'crispy_bootstrap5',
     'django.contrib.admin',
