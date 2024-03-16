@@ -12,6 +12,9 @@ from .models import InventoryItem, Category, Order
 from airhouse_project.settings import LOW_QUANTITY
 from django.contrib import messages
 
+class EntryPage(TemplateView):
+    template_name = 'airhouse/entry_page.html'
+
 class Index(TemplateView):
     template_name = 'airhouse/index.html'
 
