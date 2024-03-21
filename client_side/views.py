@@ -27,5 +27,5 @@ class SignUpView(View):
             profile.user = user
             profile.save()
             login(request, user)
-            return redirect('index')  
+            return redirect('customer:index')  
         return render(request, 'signup.html', {'user_form': user_form, 'profile_form': profile_form})
