@@ -1,13 +1,21 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.views import View
 from .forms import SignUpForm, CustomerProfileForm
 from django.contrib.auth import login
+from django.contrib.auth.views import LoginView
 from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView
 
 
 class Index(TemplateView):
     template_name = 'client/index.html'
+
+class LoginView(LoginView):
+    template_name = 'client/login.html'
+    
+    def get_success_url(self):
+        return reverse('customer:index')
 
 
 class SignUpView(View):

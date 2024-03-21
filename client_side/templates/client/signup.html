@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-11 col-md-4 mx-auto mt-5">
             <h1>Register Customer</h1>
-            <p>or <a href="#" class="ml-2">login</a> with an existing account</p>
+            <p>or <a href="{% url 'customer:login' %}" class="ml-2">login</a> with an existing account</p>
             {% if user_form.errors %}
                 {% for field in user_form %}
                     {% for error in field.errors %}

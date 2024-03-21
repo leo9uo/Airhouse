@@ -5,14 +5,14 @@
 <div class="row">
     <div class="col-11 col-md-4 mx-auto mt-5">
         <h1>Sign in to Customer Portal</h1>
-        <!-- <div class="pt-0">
-            <small>or <a href="{% url 'register' %}" class="ml-2">register</a> a new account</small>
+        <div class="pt-0">
+            <small>or <a href="{% url 'customer:signup' %}" class="ml-2">register</a> a new account</small>
         </div>
         <form method="post">
             {% csrf_token %}
             {{ form|crispy }}
             <button type="submit" class="btn btn-primary disabled">Sign In</button>
-        </form> -->
+        </form>
         
     </div>
 </div>
