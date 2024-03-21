@@ -1,0 +1,39 @@
+{% extends 'client/base.html' %}
+
+{% block content %}
+
+
+
+<div class="container my-5 py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 mx-auto text-center">
+            <h1 class="display-4 fw-light text-primary">Available Inventory</h1>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Company</th>
+                            <th>Item</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for inventory_item in inventory_items %}
+                        <tr>
+                            <td>{{ inventory_item.user.company_name }}</td>  
+                            <td>{{ inventory_item.name }}</td>
+                            <td>{{ inventory_item.quantity }}</td>
+                            <td>{{ inventory_item.price }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="mt-5">
+                <a href="{% url 'customer:inventory' %}" class="btn btn-lg btn-primary">Place Order</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

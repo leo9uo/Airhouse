@@ -7,7 +7,7 @@
 			<h1 class="display-4 fw-light text-primary">Welcome to the Airhouse Customer Portal</h1>
 			<p class="lead fw-light mt-4">Via the Airhouse Customer Portal, costumers can sift through registered companies and order directly from existing inventory!</p>
 			<div class="mt-5">
-				<a href="#" class="btn btn-lg btn-primary">Place Order</a>
+				<a href="{% url 'customer:inventory' %}" class="btn btn-lg btn-primary">Place Order</a>
                 <a href="{% url 'customer:signup' %}" class="btn btn-lg btn-secondary">Create Customer Profile</a>
 			</div>
 		</div>
