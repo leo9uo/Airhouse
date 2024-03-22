@@ -7,11 +7,11 @@
         <!-- Left side of navbar -->
         <div class="collapse navbar-collapse justify-content" id="navbarNav">
             <ul class="navbar-nav me-auto">
-                <!-- {% if user.is_authenticated %}
+                {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}" aria-current="page" href="{% url 'dashboard' %}">Inventory</a>
+                        <a class="nav-link {% if request.resolver_match.url_name == 'inventory_list' %}active{% endif %}" aria-current="page" href="{% url 'customer:inventory' %}">Shop</a>
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link {% if request.resolver_match.url_name == 'orders' %}active{% endif %}" href="{% url 'orders' %}">Orders</a>
                     </li>
                     <li class="nav-item">
@@ -25,8 +25,8 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {% if request.resolver_match.url_name == 'restock' %}active{% endif %}" href="{% url 'projects' %}">Projects</a>
-                    </li>
-                {% endif %} -->
+                    </li> -->
+                {% endif %}
             </ul>
         </div>
         <!-- right side of navbar -->

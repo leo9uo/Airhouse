@@ -6,6 +6,7 @@ from django.contrib.auth import login
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView, ListView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from airhouse.models import InventoryItem
 
 
@@ -41,7 +42,7 @@ class SignUpView(View):
         return render(request, 'signup.html', {'user_form': user_form, 'profile_form': profile_form})
 
 
-class AvailableInventoryListView(ListView):
+class AvailableInventoryListView(LoginRequiredMixin, ListView):
     template_name = 'client/avail_inv_list.html'
     model = InventoryItem
     context_object_name = 'inventory_items'
