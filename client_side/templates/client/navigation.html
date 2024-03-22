@@ -1,30 +1,30 @@
-<nav class="navbar navbar-expand-lg bg-light">
+<nav id="mainNavbar" class="navbar navbar-expand-lg navbar-custom fixed-top">
     <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'entry' %}">Airhouse</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" >
-            <span class="navbar-toggler-icon"></span>
+        <a class="navbar-brand" href="{% url 'entry' %}" style="color: white;">Airhouse</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" style="color: white;">
+            <span class="navbar-toggler-icon" style="color: white;"></span>
         </button>
         <!-- Left side of navbar -->
         <div class="collapse navbar-collapse justify-content" id="navbarNav">
             <ul class="navbar-nav me-auto">
                 {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.url_name == 'inventory_list' %}active{% endif %}" aria-current="page" href="{% url 'customer:inventory' %}">Shop</a>
+                        <a class="nav-link {% if request.resolver_match.url_name == 'inventory_list' %}active{% endif %}" aria-current="page" href="{% url 'customer:inventory' %}" style="color: white;">Shop</a>
                     </li>
                     <!-- <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.url_name == 'orders' %}active{% endif %}" href="{% url 'orders' %}">Orders</a>
+                        <a class="nav-link {% if request.resolver_match.url_name == 'orders' %}active{% endif %}" href="{% url 'orders' %}" style="color: white;">Orders</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.url_name == 'restock' %}active{% endif %}" href="{% url 'restock' %}">Restock</a>
+                        <a class="nav-link {% if request.resolver_match.url_name == 'restock' %}active{% endif %}" href="{% url 'restock' %}" style="color: white;">Restock</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.url_name == 'restock' %}active{% endif %}" href="{% url 'billing' %}">Billing</a>
+                        <a class="nav-link {% if request.resolver_match.url_name == 'restock' %}active{% endif %}" href="{% url 'billing' %}" style="color: white;">Billing</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.url_name == 'restock' %}active{% endif %}" href="{% url 'returns' %}">Returns</a>
+                        <a class="nav-link {% if request.resolver_match.url_name == 'restock' %}active{% endif %}" href="{% url 'returns' %}" style="color: white;">Returns</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.url_name == 'restock' %}active{% endif %}" href="{% url 'projects' %}">Projects</a>
+                        <a class="nav-link {% if request.resolver_match.url_name == 'restock' %}active{% endif %}" href="{% url 'projects' %}" style="color: white;">Projects</a>
                     </li> -->
                 {% endif %}
             </ul>
@@ -36,10 +36,10 @@
                     {% if user.is_authenticated %}
                         <form action="{% url 'logout' %}" method="post">
                             {% csrf_token %}
-                            <button type="submit" class="nav-link">Logout</button>
+                            <button type="submit" class="nav-link" style="color: white;">Logout</button>
                         </form>
                     {% else %}
-                        <a class="nav-link" href="{% url 'login' %}">Sign In</a>
+                        <a class="nav-link" href="{% url 'login' %}" style="color: white;">Sign In</a>
                     {% endif %}
                 </li>
             </ul>
@@ -47,3 +47,31 @@
     </div>
 
 </nav>
+
+
+<!-- 
+<script>
+    // Get the navbar
+    var navbar = document.getElementById("mainNavbar");
+
+    // Define the initial scroll position
+    var prevScrollpos = window.pageYOffset;
+
+    // Function to handle the scroll event
+    window.onscroll = function() {
+        // Get the current scroll position
+        var currentScrollPos = window.pageYOffset;
+        
+        // Check if the current scroll position is less than the previous scroll position
+        if (prevScrollpos > currentScrollPos) {
+            // If the user is scrolling up, add a CSS class to make the navbar background black
+            navbar.classList.add("navbar-black-bg");
+        } else {
+            // If the user is scrolling down, remove the CSS class to revert to the original background color
+            navbar.classList.remove("navbar-black-bg");
+        }
+        
+        // Update the previous scroll position
+        prevScrollpos = currentScrollPos;
+    }
+</script> -->
