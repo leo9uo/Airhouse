@@ -1,4 +1,4 @@
-<nav id="mainNavbar" class="navbar navbar-expand-lg navbar-custom fixed-top">
+<nav id="mainNavbar" class="navbar navbar-expand-lg navbar-custom fixed-top" style="transition: background-color 0.3s ease;">
     <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'entry' %}" style="color: white;">Airhouse</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" style="color: white;">
@@ -11,21 +11,6 @@
                     <li class="nav-item">
                         <a class="nav-link {% if request.resolver_match.url_name == 'inventory_list' %}active{% endif %}" aria-current="page" href="{% url 'customer:inventory' %}" style="color: white;">Shop</a>
                     </li>
-                    <!-- <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.url_name == 'orders' %}active{% endif %}" href="{% url 'orders' %}" style="color: white;">Orders</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.url_name == 'restock' %}active{% endif %}" href="{% url 'restock' %}" style="color: white;">Restock</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.url_name == 'restock' %}active{% endif %}" href="{% url 'billing' %}" style="color: white;">Billing</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.url_name == 'restock' %}active{% endif %}" href="{% url 'returns' %}" style="color: white;">Returns</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.url_name == 'restock' %}active{% endif %}" href="{% url 'projects' %}" style="color: white;">Projects</a>
-                    </li> -->
                 {% endif %}
             </ul>
         </div>
@@ -45,33 +30,16 @@
             </ul>
         </div>
     </div>
-
 </nav>
 
-
-<!-- 
 <script>
-    // Get the navbar
-    var navbar = document.getElementById("mainNavbar");
+    window.onscroll = function() {scrollFunction()};
 
-    // Define the initial scroll position
-    var prevScrollpos = window.pageYOffset;
-
-    // Function to handle the scroll event
-    window.onscroll = function() {
-        // Get the current scroll position
-        var currentScrollPos = window.pageYOffset;
-        
-        // Check if the current scroll position is less than the previous scroll position
-        if (prevScrollpos > currentScrollPos) {
-            // If the user is scrolling up, add a CSS class to make the navbar background black
-            navbar.classList.add("navbar-black-bg");
+    function scrollFunction() {
+        if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
+            document.getElementById("mainNavbar").style.backgroundColor = "rgba(0, 0, 0, 0.95)";
         } else {
-            // If the user is scrolling down, remove the CSS class to revert to the original background color
-            navbar.classList.remove("navbar-black-bg");
+            document.getElementById("mainNavbar").style.backgroundColor = "transparent";
         }
-        
-        // Update the previous scroll position
-        prevScrollpos = currentScrollPos;
     }
-</script> -->
+</script>
