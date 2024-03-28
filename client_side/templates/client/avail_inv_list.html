@@ -7,6 +7,19 @@
     <div class="row justify-content-center">
         <div class="col-lg-8 mx-auto text-center">
             <h1 class="display-4 fw-light text-primary">Shop</h1>
+                    <!-- filter -->
+                    <div class="row mb-3">
+                        <div class="col">
+                            <form method="get" class="d-flex align-items-center gap-2">
+                                {% for field in filter.form %}
+                                    <div class="form-group mb-0">
+                                        {{ field }}
+                                    </div>
+                                {% endfor %}
+                                <button type="submit" class="btn btn-primary col d-flex justify-content-end">Search</button>
+                            </form>
+                        </div>
+                    </div>
             <div class="table-responsive">
                 <table class="table table-bordered table-striped">
                     <thead>

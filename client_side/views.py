@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views import View
 from .forms import SignUpForm, CustomerProfileForm
+from .filters import InventoryFilter
 from django.contrib.auth import login
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.decorators import login_required
@@ -42,10 +43,16 @@ class SignUpView(View):
         return render(request, 'signup.html', {'user_form': user_form, 'profile_form': profile_form})
 
 
-class AvailableInventoryListView(LoginRequiredMixin, ListView):
+class AvailableInventoryListView(LoginRequiredMixin, TemplateView):
     template_name = 'client/avail_inv_list.html'
-    model = InventoryItem
-    context_object_name = 'inventory_items'
 
-    def get_queryset(self):
-        return InventoryItem.objects.all()
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        inventory_items = InventoryItem.objects.all()
+        inventory_filter = InventoryFilter(self.request.GET, queryset=inventory_items)
+        filtered_items = inventory_filter.qs
+
+        context['inventory_items'] = filtered_items
+        context['filter'] = inventory_filter
+
+        return context
