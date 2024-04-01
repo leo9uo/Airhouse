@@ -37,6 +37,12 @@
                             <td>{{ inventory_item.name }}</td>
                             <td>{{ inventory_item.quantity }}</td>
                             <td>{{ inventory_item.price }}</td>
+                            <td>
+                                <form action="{% url 'customer:add-to-cart' inventory_item.id %}" method="POST">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-primary">Add to Cart</button>
+                                </form>
+                            </td>
                         </tr>
                         {% endfor %}
                     </tbody>

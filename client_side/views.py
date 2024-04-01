@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.views import View
 from .forms import SignUpForm, CustomerProfileForm
@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from airhouse.models import InventoryItem
+from .models import Cart, CartItem
 
 
 class Index(TemplateView):
@@ -56,3 +57,23 @@ class AvailableInventoryListView(LoginRequiredMixin, TemplateView):
         context['filter'] = inventory_filter
 
         return context
+    
+
+class AddToCart(View):
+    def post(self, request, *args, **kwargs):
+        # Get the inventory item
+        inventory_item_id = kwargs.get('inventory_item_id')
+        inventory_item = InventoryItem.objects.get(id=inventory_item_id)
+        
+        # Get or create the cart for the current user
+        cart, created = Cart.objects.get_or_create(user=request.user)
+        
+        # Check if the item is already in the cart
+        existing_cart_item = CartItem.objects.filter(cart=cart, inventory_item=inventory_item).first()
+        if existing_cart_item:
+            existing_cart_item.quantity += 1
+            existing_cart_item.save()
+        else:
+            CartItem.objects.create(cart=cart, inventory_item=inventory_item, quantity=1)
+        
+        return redirect('customer:inventory')
