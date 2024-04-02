@@ -12,6 +12,7 @@
                             <th>Item</th>
                             <th>Quantity</th>
                             <th>Price</th>
+                            <th> </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -20,6 +21,17 @@
                             <td>{{ cart_item.inventory_item.name }}</td>
                             <td>{{ cart_item.quantity }}</td>
                             <td>{{ cart_item.inventory_item.price }}</td>
+                            <td>
+                                <form action="{% url 'customer:edit-cart-item' cart_item.id %}" method="post" class="d-inline">
+                                    {% csrf_token %}
+                                    <input type="number" name="quantity" value="{{ cart_item.quantity }}">
+                                    <button type="submit" class="btn btn-success">Update</button>
+                                </form>
+                                <form action="{% url 'customer:remove-from-cart' cart_item.id %}" method="post" class="d-inline">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-primary">Remove</button>
+                                </form>
+                            </td>
                         </tr>
                         {% endfor %}
                     </tbody>

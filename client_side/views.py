@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.views import View
 from .forms import SignUpForm, CustomerProfileForm
@@ -91,3 +91,20 @@ class CartList(LoginRequiredMixin, TemplateView):
         context['cart_items'] = cart_items
 
         return context
+
+
+class EditCartItem(LoginRequiredMixin, View):
+    def post(self, request, item_id):
+        quantity = request.POST.get('quantity')
+        cart_item = get_object_or_404(CartItem, pk=item_id)
+        cart_item.quantity = quantity
+        cart_item.save()
+        return redirect('customer:cart')
+    
+
+    
+class RemoveCartItem(LoginRequiredMixin, View):
+    def post(self, request, item_id):
+        cart_item = get_object_or_404(CartItem, pk=item_id)
+        cart_item.delete()
+        return redirect('customer:cart')
