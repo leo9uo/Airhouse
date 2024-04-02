@@ -21,7 +21,7 @@
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link {% if request.resolver_match.url_name == 'inventory_list' %}active{% endif %}" aria-current="page" href="#" style="color: white;">Cart</a>
+                    <a class="nav-link {% if request.resolver_match.url_name == 'inventory_list' %}active{% endif %}" aria-current="page" href="{% url 'customer:cart' %}" style="color: white;">Cart</a>
                 </li>
                 <li class="nav-item">
                     {% if user.is_authenticated %}

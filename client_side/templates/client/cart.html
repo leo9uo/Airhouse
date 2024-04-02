@@ -1,0 +1,31 @@
+{% extends 'client/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="display-4 fw-light text-primary">Your Cart</h1>
+    <div class="row justify-content-center">
+        <div class="col-lg-8 mx-auto">
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for cart_item in cart_items %}
+                        <tr>
+                            <td>{{ cart_item.inventory_item.name }}</td>
+                            <td>{{ cart_item.quantity }}</td>
+                            <td>{{ cart_item.inventory_item.price }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
