@@ -6,13 +6,13 @@
     <div class="row justify-content-center">
         <div class="col-lg-8 mx-auto">
             <div class="table-responsive">
-                <table class="table table-bordered table-striped">
+                <table class="table table-bordered table-striped table-dark w-auto mx-auto">
                     <thead>
                         <tr>
                             <th>Item</th>
                             <th>Quantity</th>
                             <th>Price</th>
-                            <th> </th>
+                            <th>Update Order</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -24,12 +24,12 @@
                             <td>
                                 <form action="{% url 'customer:edit-cart-item' cart_item.id %}" method="post" class="d-inline">
                                     {% csrf_token %}
-                                    <input type="number" name="quantity" value="{{ cart_item.quantity }}">
-                                    <button type="submit" class="btn btn-success">Update</button>
+                                    <input type="number" name="quantity" class="form-control form-control-sm w-auto d-inline">
+                                    <button type="submit" class="btn btn-success btn-sm">Update</button>
                                 </form>
                                 <form action="{% url 'customer:remove-from-cart' cart_item.id %}" method="post" class="d-inline">
                                     {% csrf_token %}
-                                    <button type="submit" class="btn btn-primary">Remove</button>
+                                    <button type="submit" class="btn btn-primary btn-sm">Remove</button>
                                 </form>
                             </td>
                         </tr>
