@@ -25,12 +25,12 @@
                 </li>
                 <li class="nav-item">
                     {% if user.is_authenticated %}
-                        <form action="{% url 'logout' %}" method="post">
+                        <form action="{% url 'customer:logout' %}" method="post">
                             {% csrf_token %}
                             <button type="submit" class="nav-link" style="color: white;">Logout</button>
                         </form>
                     {% else %}
-                        <a class="nav-link" href="{% url 'login' %}" style="color: white;">Sign In</a>
+                        <a class="nav-link" href="{% url 'customer:login' %}" style="color: white;">Sign In</a>
                     {% endif %}
                 </li>
             </ul>
