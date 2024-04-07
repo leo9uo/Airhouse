@@ -108,3 +108,6 @@ class RemoveCartItem(LoginRequiredMixin, View):
         cart_item = get_object_or_404(CartItem, pk=item_id)
         cart_item.delete()
         return redirect('customer:cart')
+    
+class Orders(LoginRequiredMixin, TemplateView):
+    template_name = 'client/orders.html'

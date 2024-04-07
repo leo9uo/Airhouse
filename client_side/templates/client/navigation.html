@@ -12,7 +12,7 @@
                         <a class="nav-link {% if request.resolver_match.url_name == 'inventory_list' %}active{% endif %}" aria-current="page" href="{% url 'customer:inventory' %}" style="color: white;">Shop</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.url_name == 'inventory_list' %}active{% endif %}" aria-current="page" href="#" style="color: white;">Orders</a>
+                        <a class="nav-link {% if request.resolver_match.url_name == 'inventory_list' %}active{% endif %}" aria-current="page" href="{% url 'customer:orders' %}" style="color: white;">Orders</a>
                     </li>
                 {% endif %}
             </ul>

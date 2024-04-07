@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import Index, SignUpView, LoginView, AvailableInventoryListView, AddToCart, CartList, EditCartItem, RemoveCartItem
+from .views import Index, SignUpView, LoginView, AvailableInventoryListView, AddToCart, CartList, EditCartItem, RemoveCartItem, Orders
 from django.contrib.auth import views as auth_views
 
 app_name = 'customer'
@@ -14,4 +14,5 @@ urlpatterns = [
     path('add-to-cart/<int:inventory_item_id>/', AddToCart.as_view(), name='add-to-cart'),
     path('edit-cart-item/<int:item_id>/', EditCartItem.as_view(), name='edit-cart-item'),
     path('remove-from-cart/<int:item_id>/', RemoveCartItem.as_view(), name='remove-from-cart'),
+    path('orders/', Orders.as_view(), name='orders'),
 ]
