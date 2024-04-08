@@ -7,7 +7,7 @@ from django.contrib.auth import login
 from django.contrib.auth.views import LoginView
 from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from airhouse.models import InventoryItem
+from airhouse.models import InventoryItem, Order, OrderItem
 from .models import Cart, CartItem
 
 
@@ -111,3 +111,35 @@ class RemoveCartItem(LoginRequiredMixin, View):
     
 class Orders(LoginRequiredMixin, TemplateView):
     template_name = 'client/orders.html'
+
+
+class CheckoutView(View):
+    def get(self, request, *args, **kwargs):
+        # You can add logic here to render the checkout page
+        # For example:
+        return render(request, 'checkout.html')
+
+    def post(self, request, *args, **kwargs):
+        # Get the user's cart
+        cart = Cart.objects.get(user=request.user)
+        
+        # Create an order for the user
+        order = Order.objects.create(user=request.user, recipient=request.user.email, order_source='Airhouse')
+        
+        # Create order items for each item in the cart
+        for cart_item in cart.cart_items.all():
+            order_item = OrderItem.objects.create(order=order, inventory_item=cart_item.inventory_item, quantity=cart_item.quantity)
+            # Update the inventory quantity (decrease)
+            inventory_item = cart_item.inventory_item
+            inventory_item.quantity -= cart_item.quantity
+            inventory_item.save()
+        
+        # Clear the user's cart
+        cart.cart_items.all().delete()
+        
+        return redirect('customer:order-confirmation')  # Redirect to the order confirmation page
+    
+
+class OrderConfirmationView(View):
+    def get(self, request, *args, **kwargs):
+        return render(request, 'client/order_confirmation.html')
