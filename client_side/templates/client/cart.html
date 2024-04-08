@@ -37,9 +37,12 @@
                     </tbody>
                 </table>
             </div>
-            <div class="text-center mt-4">
-                <a href="{% url 'customer:checkout' %}" class="btn btn-lg btn-primary">Checkout</a>
-            </div>
+            <form method="post" action="{% url 'customer:checkout' %}">
+                {% csrf_token %}
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-lg btn-primary">Checkout</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

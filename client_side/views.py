@@ -114,17 +114,12 @@ class Orders(LoginRequiredMixin, TemplateView):
 
 
 class CheckoutView(View):
-    def get(self, request, *args, **kwargs):
-        # You can add logic here to render the checkout page
-        # For example:
-        return render(request, 'checkout.html')
-
     def post(self, request, *args, **kwargs):
         # Get the user's cart
         cart = Cart.objects.get(user=request.user)
         
-        # Create an order for the user
-        order = Order.objects.create(user=request.user, recipient=request.user.email, order_source='Airhouse')
+        # Create an order for the user (using the Order model from the airhouse app)
+        order = Order.objects.create(recipient=request.user.email, order_source='Airhouse')
         
         # Create order items for each item in the cart
         for cart_item in cart.cart_items.all():
