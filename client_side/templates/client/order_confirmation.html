@@ -2,4 +2,18 @@
 
 {% block content %}
 <h1 class="mt-4">ORDER CONFIRMED</h1>
+
+<h2>Order Details</h2>
+<p><strong>User:</strong> {{ order.user }}</p>
+<p><strong>Address:</strong> {{ order.user.customer_profile.address }}</p>
+<p><strong>City:</strong> {{ order.user.customer_profile.city }}</p>
+<p><strong>State:</strong> {{ order.user.customer_profile.state }}</p>
+
+<h2>Ordered Items</h2>
+<ul>
+  {% for order_item in order.order_items.all %}
+    <li>{{ order_item.quantity }} of {{ order_item.inventory_item.name }}</li>
+  {% endfor %}
+</ul>
+
 {% endblock content %}

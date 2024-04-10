@@ -132,9 +132,14 @@ class CheckoutView(View):
         # Clear the user's cart
         cart.cart_items.all().delete()
         
-        return redirect('customer:order-confirmation')  # Redirect to the order confirmation page
+        return redirect('customer:order-confirmation', order_id=order.id)  # Redirect to the order confirmation page
     
 
 class OrderConfirmationView(View):
-    def get(self, request, *args, **kwargs):
-        return render(request, 'client/order_confirmation.html')
+        def get(self, request, *args, **kwargs):
+            # Get the order object from the database
+            order_id = kwargs.get('order_id')
+            order = Order.objects.get(id=order_id)
+            
+            # Render the order confirmation template with the order object
+            return render(request, 'order_confirmation.html', {'order': order})

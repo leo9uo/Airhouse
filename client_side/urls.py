@@ -16,5 +16,5 @@ urlpatterns = [
     path('remove-from-cart/<int:item_id>/', RemoveCartItem.as_view(), name='remove-from-cart'),
     path('orders/', Orders.as_view(), name='orders'),
     path('checkout/', CheckoutView.as_view(), name='checkout'),
-    path('order-confirmation/', OrderConfirmationView.as_view(), name='order-confirmation'),
+    path('order-confirmation/<int:order_id>/', OrderConfirmationView.as_view(), name='order-confirmation'),
 ]
