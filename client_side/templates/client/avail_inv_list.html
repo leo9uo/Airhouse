@@ -41,7 +41,12 @@
                             <td>
                                 <form action="{% url 'customer:add-to-cart' inventory_item.id %}" method="POST">
                                     {% csrf_token %}
+                                    <div class="input-group input-group-sm">
+                                        <input type="number" name="quantity" class="form-control" min="1">
+                                        <div class="input-group-append">
                                     <button class="add-to-cart-btn" data-item-id="{{ item.id }}">+</button>
+                                        </div>
+                                    </div>
                                 </form>
                             </td>
                         </tr>

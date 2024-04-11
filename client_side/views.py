@@ -67,15 +67,19 @@ class AddToCart(View):
         # Get or create the cart for the current user
         cart, created = Cart.objects.get_or_create(user=request.user)
         
+        # Retrieve quantity from the form data
+        quantity = int(request.POST.get('quantity', 1))  # Default to 1 if quantity is not provided
+        
         # Check if the item is already in the cart
         existing_cart_item = CartItem.objects.filter(cart=cart, inventory_item=inventory_item).first()
         if existing_cart_item:
-            existing_cart_item.quantity += 1
+            existing_cart_item.quantity += quantity
             existing_cart_item.save()
         else:
-            CartItem.objects.create(cart=cart, inventory_item=inventory_item, quantity=1)
+            CartItem.objects.create(cart=cart, inventory_item=inventory_item, quantity=quantity)
         
         return redirect('customer:inventory')
+
     
 
 class CartList(LoginRequiredMixin, TemplateView):
