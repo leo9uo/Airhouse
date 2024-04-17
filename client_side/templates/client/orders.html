@@ -2,4 +2,36 @@
 
 {% block content %}
 <h1 class="mt-4">Orders</h1>
+
+{% if orders %}
+  <div class="row mt-4">
+    <div class="col">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Order Number</th>
+            <th>Recipient</th>
+            <th>Order Date</th>
+            <th>Status</th>
+            <!-- Add more table headings if needed -->
+          </tr>
+        </thead>
+        <tbody>
+          {% for order in orders %}
+            <tr>
+              <td>{{ order.order_no }}</td>
+              <td>{{ order.recipient }}</td>
+              <td>{{ order.order_date }}</td>
+              <td>{{ order.status }}</td>
+              <!-- Add more table cells if needed -->
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% else %}
+  <p>No orders found.</p>
+{% endif %}
+
 {% endblock content %}

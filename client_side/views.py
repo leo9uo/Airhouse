@@ -113,10 +113,14 @@ class RemoveCartItem(LoginRequiredMixin, View):
         cart_item.delete()
         return redirect('customer:cart')
     
-class Orders(LoginRequiredMixin, TemplateView):
-    template_name = 'client/orders.html'
+class Orders(LoginRequiredMixin, View):
+     def get(self, request, *args, **kwargs):
+        # Get orders placed by the logged-in user
+        orders = Order.objects.filter(user=request.user)
 
-
+        # Render the template with the orders queryset
+        return render(request, 'orders.html', {'orders': orders})
+     
 class CheckoutView(View):
     def post(self, request, *args, **kwargs):
         # Get the user's cart

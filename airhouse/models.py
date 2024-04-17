@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.contrib.auth import get_user_model
+from django.conf import settings
 from django.db import models
 import uuid
 
@@ -78,6 +79,7 @@ class Order(models.Model):
         ('not_paid', 'Not Paid'),
     ]
 
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default=None)
     order_no = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     recipient = models.CharField(max_length=255)
     order_date = models.DateField(auto_now_add=True)
