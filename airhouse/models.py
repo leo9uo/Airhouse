@@ -79,7 +79,7 @@ class Order(models.Model):
         ('not_paid', 'Not Paid'),
     ]
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default=None)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=None)
     order_no = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     recipient = models.CharField(max_length=255)
     order_date = models.DateField(auto_now_add=True)
