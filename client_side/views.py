@@ -127,7 +127,7 @@ class CheckoutView(View):
         cart = Cart.objects.get(user=request.user)
         
         # Create an order for the user (using the Order model from the airhouse app)
-        order = Order.objects.create(recipient=request.user.email, order_source='Airhouse')
+        order = Order.objects.create(user=request.user, recipient=request.user.email, order_source='Airhouse')
         
         # Create order items for each item in the cart
         for cart_item in cart.cart_items.all():
