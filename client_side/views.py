@@ -68,7 +68,14 @@ class AddToCart(View):
         cart, created = Cart.objects.get_or_create(user=request.user)
         
         # Retrieve quantity from the form data
-        quantity = int(request.POST.get('quantity', 1))  # Default to 1 if quantity is not provided
+        quantity = request.POST.get('quantity')
+        if quantity:
+            try:
+                quantity = int(quantity)
+            except ValueError:
+                quantity = 1
+        else:
+            quantity = 1
         
         # Check if the item is already in the cart
         existing_cart_item = CartItem.objects.filter(cart=cart, inventory_item=inventory_item).first()
