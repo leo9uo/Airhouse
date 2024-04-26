@@ -2,9 +2,9 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-    <a href="javascript:history.back()" class="btn btn-outline-primary my-3 mx-4">Go Back</a>
+    <a href="javascript:history.back()" class="btn btn-outline-primary my-5 mx-4">Go Back</a> <!-- Increased margin-top -->
     <div class="row">
-        <div class="col-11 col-md-4 mx-auto mt-5">
+        <div class="col-11 col-md-4 mx-auto mt-3"> <!-- Adjusted margin-top here as well -->
             <h1>Register Customer</h1>
             <p>or <a href="{% url 'customer:login' %}" class="ml-2">login</a> with an existing account</p>
             {% if user_form.errors %}
