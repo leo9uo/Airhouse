@@ -117,10 +117,15 @@ class Orders(LoginRequiredMixin, FilterView):
     context_object_name = 'orders'
     filterset_class = OrderFilter
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['filter'] = OrderFilter(self.request.GET, queryset=self.get_queryset())
-        return context
+    def get_queryset(self):
+        # Get the current logged-in user
+        user = self.request.user
+        
+        # Filter orders based on the user's company name
+        if user.is_authenticated:
+            return Order.objects.filter(user=user, user__company_name=user.company_name)
+        else:
+            return Order.objects.none()  # Return an empty queryset if the user is not logged in
 
 
 class OrderDetail(LoginRequiredMixin, DetailView):
