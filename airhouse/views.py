@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, View, CreateView, UpdateView, DeleteView, ListView, DetailView
 from django.views.decorators.http import require_POST
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
 from .forms import UserRegisterForm, InventoryItemForm, OrderForm, OrderItemFormSet, CategoryForm
@@ -14,6 +14,12 @@ from django.contrib import messages
 
 class EntryPage(TemplateView):
     template_name = 'airhouse/entry_page.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        # Log out the user if they are logged in
+        if request.user.is_authenticated:
+            logout(request)
+        return super().dispatch(request, *args, **kwargs)
 
 class Index(TemplateView):
     template_name = 'airhouse/index.html'
@@ -121,12 +127,11 @@ class Orders(LoginRequiredMixin, FilterView):
         # Get the current logged-in user
         user = self.request.user
         
-        # Filter orders based on the user's company name
+        # Filter orders based on the company name associated with the user's inventory items
         if user.is_authenticated:
-            return Order.objects.filter(user=user, user__company_name=user.company_name)
+            return Order.objects.filter(skus_ordered__user=user)
         else:
             return Order.objects.none()  # Return an empty queryset if the user is not logged in
-
 
 class OrderDetail(LoginRequiredMixin, DetailView):
     model = Order

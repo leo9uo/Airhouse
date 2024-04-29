@@ -18,10 +18,8 @@
             {% for field in filter.form %}
                 <div class="form-group">
                     {% if field.name in "status,payment,order_source,recipient,skus_ordered" %}
-                        <!-- Only render the widget for specific fields -->
                         {{ field }}
                     {% else %}
-                        <!-- Render the field with its label for other fields -->
                         <label for="{{ field.id_for_label }}">{{ field.label }}</label>
                         {{ field }}
                     {% endif %}
@@ -57,7 +55,7 @@
                     <td></td>
                 </tr>
                 {% endif %}
-
+        
                 {% for order in orders %}
                 <tr>
                     <th scope="row"><a href="{% url 'order-detail' order.pk %}">{{ order.order_no|stringformat:"s"|slice:":8" }}</a></th>
@@ -68,8 +66,10 @@
                     <td>{{ order.order_source }}</td>
                     <td>
                         {% for item in order.order_items.all %}
-                            {{ item.inventory_item.name }} (Quantity: {{ item.quantity }})
-                            {% if not forloop.last %}, {% endif %}
+                            {% if item.inventory_item.user.company_name == request.user.company_name %}
+                                {{ item.inventory_item.name }} (Quantity: {{ item.quantity }})
+                                {% if not forloop.last %}, {% endif %}
+                            {% endif %}
                         {% endfor %}
                     </td>
                     <td><a href="{% url 'edit-order' order.pk %}" class="btn btn-outline-secondary">Edit</a></td>
